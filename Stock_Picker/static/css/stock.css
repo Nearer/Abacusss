@@ -1,0 +1,55 @@
+
+#first_element {
+    padding: 35px;
+    font-size: 60px;
+    margin-bottom: 30px;
+
+}
+
+/*.card{*/
+    /*!*max-width: 1250px;*!*/
+    /*width: 97%;*/
+    /*margin-left: 1%;*/
+/*}*/
+
+
+
+.metric-text{
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+/*.graph_right{*/
+    /*margin-left: 63%;*/
+/*}*/
+
+
+.row-spacing{
+    margin-bottom:50px;
+}
+
+.sma-text-block{
+    padding-top:40px;
+    padding-left:40px;
+}
+
+#monte-carlo-container{
+
+    margin-bottom: 50px;
+}
+
+#sma-container{
+    margin-bottom: 50px;
+}
+
+
+body{
+    /*background-color: #073642;*/
+    background-image: url(/static/images/wallofrisk.jpg);
+}
+
+
+
+
+
+

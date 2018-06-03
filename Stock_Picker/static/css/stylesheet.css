@@ -1,0 +1,26 @@
+body{
+    background-image:url("../images/to_the_moon.jpg");
+    background-color:black;
+
+}
+
+.jumbotron{
+    /*opacity: 0.7;*/
+    margin-top: 10%;
+
+    color:white;
+    background-color:transparent;
+}
+
+.jumbotron .container{
+
+    margin-left: 45%;
+
+}
+
+.form-group{
+    margin-left: 45%;
+}
+
+
+

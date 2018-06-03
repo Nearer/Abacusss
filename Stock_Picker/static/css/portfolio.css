@@ -1,0 +1,56 @@
+
+
+
+/*.card{*/
+    /*!*max-width: 1250px;*!*/
+    /*width: 97%;*/
+    /*margin-left: 1%;*/
+/*}*/
+
+
+
+.metric-text{
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+/*.graph_right{*/
+    /*margin-left: 63%;*/
+/*}*/
+
+
+
+
+body{
+    /*background-color: #073642;*/
+    background-image: url(/static/images/wallofrisk.jpg);
+}
+
+
+.row{
+    padding-bottom: 20%;
+}
+
+span{
+    position: absolute;
+    right: 50%;
+
+}
+
+#first_element {
+    padding: 35px;
+    font-size: 60px;
+    margin-bottom: 30px;
+
+}
+
+.p-type{
+
+    position: relative;
+    right: 0%;
+
+}
+
+#weigh-format{
+    padding: 35px;
+}

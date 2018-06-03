@@ -1,0 +1,288 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Abacus</title>
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }} ">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/stock.css') }} ">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+  {# Stock #}
+    <div class="container" id="first_element">
+        <span class=" badge badge-primary col-md-11 " >{{ stock_ticker }}</span>
+    </div>
+
+
+
+  {#    Monte-Carlo #}
+    <div class="container-fluid" id="monte-carlo-container" >
+
+        <div class="card">
+          <h2 class="card-header">
+            Monte-Carlo
+          </h2>
+          <div class="card-block">
+              <div class="row">
+
+                <h3 class="card-text" class="metric-text"> % of observations above last price: {{ obs_above_last_price }}% </h3>
+
+                <div class="col" >
+                    <canvas class="float-right" id="monte-carlo-metric-1" width="200" height="100"></canvas>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <h3 class="card-text" class="metric-text"> average price at the end of observations: {{ prix_moyen }}$ </h3>
+
+                <div class="col" >
+                     <canvas class="float-right" id="monte-carlo-metric-2" width="200" height="100"></canvas>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <h3 class="card-text" class="metric-text"> Expected returns in 70 days: {{ exp_return }}%  </h3>
+
+                <div class="col" >
+                     <canvas class="float-right" id="monte-carlo-metric-3" width="200" height="100"></canvas>
+                </div>
+
+              </div>
+
+              <div class="row">
+
+{#                <h3 class="card-text" class="metric-text"> VaR:<span class="badge badge-danger">1500$</span>  </h3>#}
+
+                <div class="container" align="left" >
+                     <embed  type="image/svg+xml" src={{graph_data|safe}} style='max-width:1000px'/>
+                </div>
+
+              </div>
+
+          </div>
+        </div>
+
+    </div>
+
+
+    {#SMA#}
+
+    <div class="container-fluid" id="sma-container">
+        <div class="card">
+            <h2 class="card-header">
+            SMA
+            </h2>
+            <div class="card-block">
+                <div class="container-fluid">
+
+                    <div class="row">
+
+                         <div class="col-md-6 ">
+                             <div class="sma-text-block">
+                             <div class="d-block mx-auto">
+                             <div class="row  row-spacing">
+                                <div class="col-xs-6"><div><h3 class="card-text"> Current trend:<span class=" badge badge-success col-md-4 " > Upward </span> </h3></div></div>
+                             </div>
+                             <div class="row row-spacing">
+                                 <div class="col-xs-6"><div><h3 class="card-text"> Price at sma crossing:<span class=" badge badge-success col-md-4 " > 97$ </span> </h3></div></div>
+                             </div>
+                             <div class="row row-spacing">
+                                 <div class="col-xs-6"><div><h3 class="card-text">Price at sma crossing: <span class=" badge badge-success col-md-4 " > 97$ </span> </h3></div></div>
+                             </div>
+                             </div>
+                         </div>
+                         </div>
+
+                         <div class="col-md-6">
+                             <img src="{{ url_for('plot2') }}" alt="Image Placeholder" class="graph_right">
+                         </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-block">
+
+                 <div class="row">
+
+                        <div class="col-md-6">
+                             <img src="{{ url_for('plot') }}" alt="Image Placeholder" class="graph_right">
+                         </div>
+
+                        <div class="col-md-6">
+                            <div class="sma-text-block">
+                            <div class="d-block mx-auto ">
+                             <div class="row  row-spacing">
+                                <div class="col-xs-6"><div style="margin-left: 20px"><h3 class="card-text" >Portfolio value:<span class=" badge badge-success col-md-5 " > 15000$ </span> </h3></div></div>
+                             </div>
+                             <div class="row row-spacing">
+                                 <div class="col-xs-6"><div style="margin-left:20px"><h3 class="card-text"> Return realized<span class=" badge badge-success col-md-5 " > 45% </span> </h3></div></div>
+                             </div>
+                             <div class="row row-spacing">
+                                 <div class="col-xs-6"><div style="margin-left: 20px"><h3 class="card-text">Days since beginning of trend:<span class=" badge badge-success col-md-5 " > 185 days </span> </h3></div></div>
+                             </div>
+                            </div>
+                            </div>
+                        </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    {#Machine-Learning#}
+    <div class="container-fluid" id="sma-container">
+            <div class="card">
+                <h2 class="card-header">
+                MACHINE LEARNING
+                </h2>
+                <div class="card-block">
+                     <div class="row">
+                         <h3 class="card-text" class="metric-text"> Linear Regression </h3>
+                        <img src="{{ url_for('plot3') }}" alt="Image Placeholder" class="graph_right">
+                     </div>
+
+                    <div class="row">
+                         <h3 class="card-text" class="metric-text"> Knn Regression </h3>
+                        <img src="{{ url_for('plot4') }}" alt="Image Placeholder" class="graph_right">
+                     </div>
+                </div>
+
+
+
+
+            </div>
+    </div>
+
+    {#Bottom-Line#}
+{#    <div class="container-fluid" id="sma-container">#}
+{#            <div class="card">#}
+{#                <h2 class="card-header">#}
+{#                Bottom Line#}
+{#                </h2>#}
+{#                <div class="card-block">#}
+{#                     <div class="row">#}
+{#                         <h3 class="card-text" class="metric-text"> </h3>#}
+{##}
+{#                     </div>#}
+{#                </div>#}
+{##}
+{##}
+{##}
+{##}
+{#            </div>#}
+{#    </div>#}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a href = '{{url_for('ChooseStocks')}}'> Homepage </a>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+        <script>
+
+        {#Monte Carlo Metric #}
+
+            {#Metric-1#}
+                var monte_carlo_metric_1_Data = [
+
+                    {
+                        value : {{ obs_above_last_price }},
+                        color : "#4ACAB4"
+                    },
+                    {
+                        value : {{  100 - obs_above_last_price}},
+                        color : "#FF8153"
+                    }
+
+                ];
+                // Get the context of the canvas element we want to select
+                var monte_carlo_metric_1= document.getElementById("monte-carlo-metric-1").getContext("2d");
+                new Chart(monte_carlo_metric_1).Doughnut(monte_carlo_metric_1_Data);
+
+
+            {#Metric-2#}
+                var monte_carlo_metric_2_Data = [
+
+                    {
+                        value : 59,
+                        color : "#4ACAB4"
+                    },
+                    {
+                        value : 41,
+                        color : "#FF8153"
+                    }
+                ];
+                // Get the context of the canvas element we want to select
+                var monte_carlo_metric_2= document.getElementById("monte-carlo-metric-2").getContext("2d");
+                new Chart(monte_carlo_metric_2).Doughnut(monte_carlo_metric_2_Data);
+
+
+            {#Metric-3#}
+                var monte_carlo_metric_3_Data = [
+
+                    {
+                        value : {{ exp_return }},
+                        color : "#4ACAB4"
+                    },
+                    {
+                        value : 30,
+                        color : "#FF8153"
+                    }
+
+                ];
+                // Get the context of the canvas element we want to select
+                var monte_carlo_metric_3= document.getElementById("monte-carlo-metric-3").getContext("2d");
+                new Chart(monte_carlo_metric_3).Doughnut(monte_carlo_metric_3_Data);
+
+
+
+
+    </script>
+</body>
