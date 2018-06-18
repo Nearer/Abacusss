@@ -11,48 +11,6 @@ import pygal
 app = Flask(__name__)
 
 
-
-
-
-@app.route('/')
-@app.route('/abacus/')
-def ChooseStocks():
-    return render_template('abacus.html')
-
-
-stock = ''
-@app.route('/abacus/stock/', methods = ['POST', 'GET'])
-@app.route('/abacus/stock/<string:stock_ticker>', methods=['POST', 'GET'])
-def stockAnalysis(stock_ticker=None):
-    if request.method == 'POST':
-        stock_ticker = request.form['stock']
-    global stock
-    stock = stock_ticker
-
-    obs_above_last_price, prix_moyen, t_intervals, exp_return, price_list = abacus.abacus_function(stock_ticker)
-    prix_moyen = math.floor(prix_moyen)
-
-    # Monte-Carlo Graph
-    try:
-        line_chart = pygal.Line(style=DarkSolarizedStyle)
-        line_chart.title = 'Monte-Carlo Graph'
-        line_chart.x_labels = map(str, range(0, t_intervals))
-
-        for y in range(0,10):
-            my_list = []
-            for i in range(0, t_intervals):
-
-                my_list.append(price_list[i][y])
-            line_chart.add('{}'.format(y), my_list)
-
-        graph_data = line_chart.render_data_uri()
-        return render_template('test.html', graph_data=graph_data, stock_ticker=stock_ticker, obs_above_last_price=obs_above_last_price, prix_moyen=prix_moyen, exp_return=exp_return
-                               )
-    except Exception as e:
-        return (str(e))
-
-
-
 import random
 from io import StringIO, BytesIO
 
@@ -62,7 +20,7 @@ from matplotlib.figure import Figure
 
 
 
-
+@app.route('/')
 @app.route('/abacus/optimizer/')
 def optimizer():
 
@@ -123,136 +81,18 @@ def custom_portfolio_opt():
 
 
 
-@app.route('/plot_sma_portfolio.png')
-def plot():
-    df, signals, portfolio = graphs.graph_sma()
-
-    # Create a figure
-    fig = plt.figure()
-
-    ax1 = fig.add_subplot(111, ylabel='Portfolio value in $')
-
-    # Plot the equity curve in dollars
-    portfolio['total'].plot(ax=ax1, lw=2.)
-
-    ax1.plot(portfolio.loc[signals.positions == 1.0].index,
-             portfolio.total[signals.positions == 1.0],
-             '^', markersize=10, color='m')
-    ax1.plot(portfolio.loc[signals.positions == -1.0].index,
-             portfolio.total[signals.positions == -1.0],
-             'v', markersize=10, color='k')
-
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
 
 
 
 
-@app.route('/plot_sma_signals.png')
-def plot2():
-    # get dataframes for the graphs
-    df, signals, portfolio = graphs.graph_sma()
-
-    # Initialize the plot figure
-    fig = plt.figure()
-
-    # Add a subplot and label for y-axis
-    ax1 = fig.add_subplot(111, ylabel='Price in $')
-
-    # Plot the closing price
-    df['Adj. Close'].plot(ax=ax1, color='r', lw=2.)
-
-    # Plot the short and long moving averages
-    signals[['short_mavg', 'long_mavg']].plot(ax=ax1, lw=2.)
-
-    # Plot the buy signals
-    ax1.plot(signals.loc[signals.positions == 1.0].index,
-             signals.short_mavg[signals.positions == 1.0],
-             '^', markersize=10, color='m')
-
-    # Plot the sell signals
-    ax1.plot(signals.loc[signals.positions == -1.0].index,
-             signals.short_mavg[signals.positions == -1.0],
-             'v', markersize=10, color='k')
-
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
 
 
 
 
-@app.route('/plot_machine_learning_l_r.png')
-def plot3():
 
 
-    # Initialize the plot figure
-    fig = plt.figure()
-    
-    df_predict, df_p, forecast_out = graphs.graph_machine_learning_l_r(stock)
-
-    df_predict['Adj. Close'][-forecast_out:].plot()
-    df_p['Forecast'].plot()
-    plt.legend(loc=4)
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
 
 
-@app.route('/plot_machine_learning_knn.png')
-def plot4():
-    # Initialize the plot figure
-    fig = plt.figure()
-
-    df_predict_2, df_p_2, forecast_out_2 = graphs.graph_machine_learning_knn(stock)
-
-    df_predict_2['Adj. Close'][-forecast_out_2:].plot()
-    df_p_2['Forecast'].plot()
-    plt.legend(loc=4)
-    plt.xlabel('Date')
-    plt.ylabel('Price')
-
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
-
-@app.route('/portfolio_optimization.png')
-def plot5():
-    # Initialize the plot figure
-    fig = plt.figure()
-
-    # create scatter plot coloured by Sharpe Ratio
-    plt.scatter(results_frame_g.stdev, results_frame_g.ret, c=results_frame_g.sharpe, cmap='RdYlBu')
-    plt.xlabel('Volatility')
-    plt.ylabel('Returns')
-    plt.colorbar()
-    # plot red star to highlight position of portfolio with highest Sharpe Ratio
-    plt.scatter(max_sharpe_port_g[1], max_sharpe_port_g[0], marker=(5, 1, 0), color='r', s=1000)
-    # plot green star to highlight position of minimum variance portfolio
-    plt.scatter(min_vol_port_g[1], min_vol_port_g[0], marker=(5, 1, 0), color='g', s=1000)
-
-    canvas = FigureCanvas(fig)
-    output = BytesIO()
-    canvas.print_png(output)
-    response = make_response(output.getvalue())
-    response.mimetype = 'image/png'
-    return response
 
 if __name__ == '__main__':
     app.debug = True
