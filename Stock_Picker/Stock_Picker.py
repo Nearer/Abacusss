@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, make_response
-from stock_picker_assistant import  p_optimizer,custom_optimizer
+from stock_picker_assistant import  p_optimizer
 from pygal.style import DarkSolarizedStyle
 import matplotlib.pyplot as plt, mpld3
 import pandas as pd
